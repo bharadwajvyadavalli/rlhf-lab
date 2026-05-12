@@ -216,3 +216,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# RLHF-Lab specific
+outputs/
+*.pt
+*.bin
+*.safetensors
+wandb/
+runs/
+
+# HuggingFace cache
+.cache/huggingface/
+
+# Large data files
+*.parquet
+*.arrow

@@ -1,0 +1,49 @@
+# Base Configuration for RLHF/DPO Pipeline
+# Qwen2.5-1.5B on UltraFeedback
+
+model:
+  name: "Qwen/Qwen2.5-1.5B"
+  torch_dtype: "bfloat16"
+  attn_implementation: "flash_attention_2"  # Use "eager" if FA2 not available
+
+dataset:
+  name: "openbmb/UltraFeedback"
+  train_split: 0.9
+  val_split: 0.05
+  test_split: 0.05
+  seed: 42
+
+lora:
+  r: 64
+  lora_alpha: 128
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+
+training:
+  output_dir: "./outputs"
+  logging_steps: 10
+  save_steps: 500
+  eval_steps: 500
+  save_total_limit: 3
+  report_to: "wandb"
+  bf16: true
+  gradient_checkpointing: true
+  dataloader_num_workers: 4
+  seed: 42
+
+wandb:
+  project: "rlhf-lab"
+  entity: null  # Set your W&B entity
+
+hub:
+  push_to_hub: true
+  hub_model_id: null  # Set your HF username/model-name
